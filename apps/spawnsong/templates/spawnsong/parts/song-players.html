@@ -1,0 +1,43 @@
+{% load endless %}
+{% load thumbnail %}
+
+{% paginate songs %}
+{% for song in songs %}
+<div class="song">
+  <div class="thumb">
+    {% thumbnail song.snippet_set.first.image "140x140" crop="center" as im %}
+    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+    {% endthumbnail %}
+  </div>
+  <div class="body">
+    {% if song.is_complete %}
+    <div class="download"><a href="{{ song.get_download_url }}"><i class="fa fa-cloud-download"></i> Download</a></div>
+    {% endif %}
+    <h2><a href="{{ song.artist.get_absolute_url }}">{{ song.artist.get_display_name }}</a> - {{ song.title }}</h2>
+    {% if song.is_complete %}
+    <div class="player-waveform">
+      <div class="player-progress">
+      </div>
+      <img  src="/waveform/750/60/white/201,201,201/{{ song.complete_audio.id }}/waveform.png" width="750" height="60">
+    </div>
+    
+    <audio class="audioPlayer" width="100%" height="30" controls="controls" preload="metadata">
+      <source type="audio/mp3" src="{{ song.complete_audio_mp3.url }}" />
+      <object width="320" height="240" type="application/x-shockwave-flash" data="{{ STATIC_URL }}mediaelement/flashmediaelement.swf">
+        <param name="movie" value="{{ STATIC_URL }}mediaelement/flashmediaelement.swf" />
+        <param name="flashvars" value="controls=true&file={{ song.complete_audio_mp3.url }}" />
+        <!-- Image as a last resort -->
+        Sorry, audio playback is not support on your browser.
+      </object>
+    </audio>
+    {% else %}
+    <p>(Pre Ordered)</p>
+    {% endif %}
+    {# This may need some perfomance improvement in future #}
+    <div class="genres">{{ song.snippet_set.first.genres|lower }}</div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+{% endfor %}
+
+{% show_more %}

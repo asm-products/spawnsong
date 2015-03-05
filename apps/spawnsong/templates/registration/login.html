@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="form-view accounts-view">
+    <div class="form-inner panel">
+
+      {% if request.GET.order %}
+        <div class="alert alert-danger alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <strong>Please make an account to place an order!</strong>
+        </div>
+      {% endif %}
+
+      <!-- <div class="panel-heading"> -->
+      <!--   <h1>Sign in with Twitter</h1> -->
+      <!-- </div> -->
+      <div class="panel-body twitter-login">
+        <a class="twitter" href="/login/twitter/?next={{next}}"><img src="{{ STATIC_URL }}images/twitter-login-button.png" width="158" height="28"></a>
+      </div>
+
+      <div class="or">OR</div>
+    
+      <div class="panel-heading">
+        <h1>Sign in with a username and password</h1>
+        <div class="tools">
+        <a href="/accounts/register/">Register for an account</a> | 
+        <a href="/password/reset/">Forgotten your password?</a>
+        </div>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" method="post" action="/login/?next={{next}}">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

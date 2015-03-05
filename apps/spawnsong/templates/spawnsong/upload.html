@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+
+{% block title %}Upload a song clip | Spawnsong{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="form-view" id="uploadView">
+    <div class="form-inner panel">
+      <div class="panel-heading">
+        <h1>Upload new Song Clip</h1>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" method="post" action="" id="uploadForm" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <div class="form-actions-with-progress">
+            <button type="submit" class="action">Upload</button>
+            <div class="status" id="uploadStatus">
+              <div class="text">
+                Uploading...
+              </div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="">
+                  <span class="sr-only">Not yet started</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,40 @@
+import os
+
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+
+PROJECT_PATH = os.path.join(os.path.split(__file__)[0], "..")
+
+# Use a locally served assets for testing
+STATIC_URL = '/static/'
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(PROJECT_PATH, 'development_database.sqlite'),
+    }
+}
+
+TWITTER_CONSUMER_KEY         = ''
+TWITTER_CONSUMER_SECRET      = ''
+
+# spawnsong user
+AWS_ACCESS_KEY=""
+AWS_SECRET_ACCESS_KEY=""
+
+MAILGUN_ACCESS_KEY = ""
+MAILGUN_SERVER_NAME = ""
+
+ECHONEST_API_KEY = ""
+
+FFMPEG_EXECUTABLE = "ffmpeg"
+
+STRIPE_PUBLIC_KEY = ""
+STRIPE_SECRET_KEY = ""
+
+
+AWS_STORAGE_BUCKET_NAME = ""
+
+SECURE_SSL_REDIRECT = False

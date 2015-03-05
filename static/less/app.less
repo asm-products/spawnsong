@@ -1,0 +1,677 @@
+@import "lib/bootstrap/bootstrap.less";
+@import "lib/font-awesome/font-awesome.less";
+// Relative to the where the compiled CSS will be
+@fa-font-path:   "../fonts";
+
+//@import "colorthemes/kuler3352921.less";
+// @import "colorthemes/colourlovers3187446.less";
+// @import "lib/simplex/variables.less";
+// @import "lib/simplex/bootswatch.less";
+@import "lib/prefixer.less";
+@import "theme.less";
+
+@black: #1a1a1a;
+
+@player-colour: #636466;
+@player-slider: #e6e6e6;
+@player-waves: #c9c9c9;
+
+@icon-font-path:          "../fonts/";
+
+
+.transition-transform (@transformArguments, @anotherProperty) {
+    -webkit-transition: -webkit-transform @transformArguments, @anotherProperty;
+    -moz-transition: -moz-transform @transformArguments, @anotherProperty;
+    -ms-transition: -ms-transform @transformArguments, @anotherProperty;
+    -o-transition: -o-transform @transformArguments, @anotherProperty;
+}
+
+// Honey pot to fool bots (probably best not to use the word "honey"
+// in its name or class)
+.badger {
+    display: none !important;
+}
+
+.content {
+    min-height: calc(~"100% - 80px");
+}
+
+.footer {
+    .container();
+    text-align: center;
+    padding: 30px;
+    color: @black;
+}
+
+.terms {
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+
+    a {
+        margin-right: 30px;
+    }
+}
+.contactus {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+
+    a {
+        margin-left: 30px;
+    }
+}
+
+html, body {
+    height: 100%;
+}
+
+
+.snippet-view {
+    .make-row();
+
+    overflow: hidden;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background: white;
+
+    h2 {
+        margin-bottom: 28px;
+    }
+
+    .genre {
+        margin-top: 8px;
+        float: right;
+    }
+
+    .image-container {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    img {
+        width: 100%;
+        .transition-transform(0.5s);
+        .transform(scale(1));
+        display: block;
+        
+        &.beat {
+            .transition-transform(0.1s);
+            .transform(scale(1.015));
+        }
+
+    }
+    
+    .overlay {
+        z-index: 1;
+        position: absolute;
+        height: calc(~"100% - 30px");
+        width: 100%;
+        opacity: 0.5;
+        cursor: pointer;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: data-uri('../images/play-overlay.png');
+    }
+
+    audio {
+        width: 100%;
+    }
+
+    .header {
+        // text-align: center;
+        margin-bottom: 15px;
+        
+        .edit-link {
+            position: absolute;
+            top: 5px;
+            right: 15px;
+        }
+
+        .timestamp {
+            color: @timestamp-color;
+            float: right;
+            margin-top: 25px;
+            font-size: 11px;
+        }
+        
+        .order-count {
+            margin-top: 10px;
+        }
+    }
+
+}
+
+.snippet-view .order-container {
+    width: 100%;
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 20px;
+    .release-date {
+        margin: 15px 0 -15px 0;
+        text-align: right;
+    }
+}
+
+.comments {
+    margin-top: 30px;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-left: 30px;
+    padding-right: 15px;
+    background-color: @comments-bg;
+
+    h1 {
+        padding-top: 40px;
+        padding-bottom: 20px;
+        font-size: 30px;
+    }
+
+
+    & > ul{
+        .list-unstyled();
+        margin: 15px;
+        margin-left: 0;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        margin-bottom: 20px;
+
+        .comment {
+            clear: left;
+            margin-bottom: 10px;
+
+            &.artist-comment {
+                background-color: @artist-comment-bg;
+                .username {
+                    font-weight: 600;
+                    font-size: 24px;
+                }
+            }
+            
+            .timestamp {
+                color: @timestamp-color;
+                font-weight: 600;
+                font-size: 13px;
+                margin-top: 5px;
+                margin-bottom: 10px;
+                padding-left: 120px;
+            }
+            .avatar {
+                margin-top: 10px;
+                float: left;
+                img {
+                    width: 96px;
+                    height: 96px;
+                    max-width: 100%;
+                }
+            }
+            .username {
+                margin-top: 10px;
+                padding-left: 120px;
+                line-height: 1;
+            }
+            .text {
+                padding-left: 120px;
+                font-weight: 300;
+                font-size: 13px;
+            }
+        }
+    }
+    
+    .newcomment {
+        padding-bottom: 30px;
+        label {
+            font-weight: normal;
+        }
+        
+        .btn {
+            display: block;
+            padding-left: 45px;
+            padding-right: 45px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            max-width: 200px;
+        }
+
+        textarea {
+            display: block;
+            width: 100%;
+            max-width: 540px;
+            height: 150px;
+        }
+    }
+}
+
+.snippet-view .edit, .snippet-view .upload-full {
+   .asteriskField {
+       display: none;
+   }
+}
+
+
+.form-view {
+    .make-row();
+}    
+
+.form-inner {
+    .make-md-column(8);
+    .make-md-column-offset(2);
+    
+    @media (min-width: @screen-md-min) {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        padding-left: 55px;
+        padding-right: 55px;
+    }
+
+    .panel-heading {
+        text-align: center;
+        .tools, a {
+            color: @gray-light;
+        }
+    }
+
+    .form-actions {
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 30px;
+        font-weight: normal;
+        margin-left: -40px;
+        margin-right: -40px;
+        margin-bottom: 30px;
+    }
+    
+    .asteriskField {
+        display: none;
+    }
+
+    .fileinput {
+        border: 0;
+        outline: none;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    input {
+        border-radius: 3px;
+    }
+}
+
+
+.accounts-view {
+    
+    .twitter {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+
+    .or {
+        font-size: 18px;
+        font-weight: normal;
+        clear: both;
+        width: 100%;
+        text-align: center;
+        color: @brand-primary;
+        margin-top: 30px;
+        margin-bottom: 10px;
+
+        &:before, &:after {
+            display: inline-block;
+            content: '';
+            width: 54px;
+            margin-left: 12px;
+            margin-right: 12px;
+            vertical-align: middle;
+            border-bottom: 2px solid @gray-light;
+        }
+    }
+}
+
+// Used on user view and on the homepage
+.snippet-list {
+    .make-row();
+    margin-top: 60px;
+
+    .snippet {
+        .make-sm-column(6);
+        .make-md-column(4);
+
+        margin-bottom: 30px;
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        .message {
+            position: relative;
+            font-size: 80%;
+            height: 18px;
+            margin-top: -18px;
+            color: @gray-light;
+            background-color: @body-bg;
+            text-align: left;
+        }
+        .counts {
+            font-size: 80%;
+            color: @gray-light;
+            margin-bottom: 0px;
+        }
+        .genre {
+            height: 1.5em;
+            overflow: hidden;
+            font-size: 90%;
+            color: @gray-light;
+            margin-top: 5px;
+            margin-bottom: 0px;
+        }
+         h3 {
+             font-size: 20px;
+             height: 25px;
+             margin-top: 20px;
+             overflow: hidden;
+             padding-left: 10px;
+             padding-right: 10px;
+         }
+
+        .snippet-inner {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        .view-snippet {
+            display: block;
+        }
+
+        .cover {
+            position: relative;
+            overflow: hidden;
+            .buttons {
+                position: absolute;
+                width: 100%;
+                bottom: 0;
+                background-color: #000000;
+                opacity: 0.8;
+
+                .transform(translateY(100%));
+                .transition-transform(0.3s);
+            }
+            &:hover .buttons {
+                .transform(translateY(0));
+                .transition-transform(0.3s);
+            }
+        }
+        .play:after {
+            font-family: FontAwesome;
+            content: "\f04b";
+            margin-left: 60px;
+        }
+    }
+}
+
+// A button and a progress bar at the bottom of a form
+.form-actions-with-progress {
+    .make-row();
+    .action {
+        .btn();
+        .btn-primary();
+        display: block;
+        margin: auto;
+    }
+
+    .status {
+        display: none;
+        margin-top: 10px;
+        .make-xs-column(12);
+        .make-sm-column(9);
+
+        .text {
+            float: left;
+        }
+
+        .progress {
+            margin-left: 80px;
+        }
+
+        
+    }
+
+}
+
+.playlist-view h1 {
+    font-size: 21px;
+    margin-bottom: 30px;
+}
+
+.playlist {
+    .song {
+        .panel();
+        padding: 10px;
+        clear: both;
+        
+        .thumb {
+            width: 140px;
+            float: left;
+            clear: left;
+        }
+        .body {
+            clear: right;
+            margin-left: 160px;
+            .artist {
+                font-size: 20px;
+            }
+            .download {
+                float: right;
+                a {
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: @gray-light;
+                    &:hover {
+                        color: @gray-light;
+                    }
+                }
+                
+            }
+            .genres {
+                float: left;
+                color: @gray;
+            }
+            h2, h2 a, h2 a:hover {
+                font-weight: 600;
+                font-size: 14px;
+                color: @gray-light;
+            }
+            h2 {
+                margin-bottom: 5px;
+                margin-top: 5px;
+            }
+        }
+    }
+}
+
+
+.flatpage {
+    max-width: 800px;
+    margin: auto;
+}
+
+
+// Mediaelement styles
+
+.mejs-container {
+    margin-bottom: 50px;
+}
+
+.mejs-controls {
+    text-align: right;
+}
+
+
+.mejs-playpause-button {
+    float: left;
+    width: 35px;
+}
+
+.mejs-time-rail {
+    display: none;
+}
+
+
+.mejs-time {
+    display: inline-block;
+    width: 90px;
+    margin-top: -15px;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.mejs-volume-button {
+    display: inline-block;
+    width: 50px;
+    text-align: left;
+}
+
+.mejs-horizontal-volume-slider {
+    display: inline-block;
+    width: 40%;
+    margin-top: 11px;
+}
+
+.mejs-button button {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: @player-colour;
+    
+    font-size: 30px;
+
+}
+
+// Button icons (2 buttons with 2 states each)
+.mejs-play button:before {
+    content: "\f04b";
+}
+
+.mejs-pause button:before {
+    content: "\f04c";
+}
+
+.mejs-mute button:before {
+    content: "\f028";
+}
+
+.mejs-unmute button:before{
+    content: "\f026";
+}
+
+
+
+.mejs-time {
+    font-size: 13px;
+    font-weight: 600;
+    
+    color: @player-colour;
+}
+
+
+.mejs-horizontal-volume-slider {
+   // width: 40%; 
+}
+
+.mejs-horizontal-volume-current, .mejs-horizontal-volume-total {
+}
+    
+.mejs-horizontal-volume-total {
+    position: relative;
+    width: 100%;
+    border-top: 4px solid @player-slider;
+    border-bottom: 4px solid @player-slider;
+    border-radius: 3px;
+}
+
+.mejs-horizontal-volume-current {
+    position: relative;
+    top: -8px;
+    border-top: 4px solid @player-colour;
+    border-bottom: 4px solid @player-colour;
+    border-radius: 3px;
+}
+
+.mejs-horizontal-volume-handle {
+    position: absolute;
+    border: 9px solid @player-colour;
+    border-radius: 50%;
+    margin-left: -3px;
+    margin-top: -20px;
+    width: 0px;
+    height: 0px;
+}
+
+.player-repeat {
+    width: 9%;
+    display: block;
+    float: right;
+    font-size: 30px;
+    border: 0;
+    background: transparent;
+    color: @player-colour;
+}
+
+.player-waveform {
+    width: 100%;
+    border-bottom: 2px solid @player-colour;
+}
+
+.player-waveform img {
+    position: relative;
+}
+
+.player-progress {
+    position:relative;
+    z-index: 999;
+    top: 90px;
+    width: 0; 
+    height: 0; 
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 8px solid @player-colour;
+}
+
+.song .player-progress {
+    top: 60px;
+}
+
+.song .mejs-container {
+    margin-bottom: 15px;
+}
+
+
+.searchbox {
+    margin-top: 30px;
+
+    input {
+       height: 42px !important;
+    }
+}
+
+.sortby {
+    float: right;
+    clear: both;
+}

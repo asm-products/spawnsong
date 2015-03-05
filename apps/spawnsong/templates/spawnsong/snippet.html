@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% load avatar_tags %}
+
+{% block title %}{{ snippet.title }} by {{ user.username }} | Spawnsong{% endblock %}
+
+{% block content %}
+
+<script>
+  var SONGSPAWN_SNIPPET_DETAILS = {{snippet_details_json|safe}};
+</script>
+
+
+<div class="container">
+  
+  
+  <div class="snippet-view" id="snippetView">
+
+    {% if paymentsuccess %}
+    <div class="alert alert-success">
+      <b>{% if snippet.is_complete %}Order{% else %}Pre Order{% endif %} Successful!</b>
+      {% if snippet.is_complete %}
+      Thanks for your order, the song will be emailed to you soon!
+      {% else %}
+      Thanks for your pre-order, the finished song will be sent to you when it's ready!
+      {% endif %}
+    </div>
+    {% endif %}
+    {% if paymenterror %}
+    <div class="alert alert-danger">
+      <b>{% if snippet.is_complete %}Order{% else %}Pre Order{% endif %} failed</b> {{ paymenterror }}
+    </div>
+    {% endif %}
+    
+    <div class="col-lg-6" id="playerContainer">
+      <div class="image-container" id="playerImageContainer">
+        <div class="overlay" id="playButtonOverlay">&nbsp;</div>
+        {% thumbnail snippet.image "450x450" crop="center" as im %}
+        <img src="{{ im.url }}" id="playerImage">
+        {% endthumbnail %}
+      </div>
+    </div>
+    <div class="col-lg-6" id="detailsContainer">
+
+      
+      <div class="header">
+        <span class="timestamp">{{ snippet.created_at|naturaltime}}</span>
+        <h1 class="snippet-title"><a href="{{snippet.get_absolute_url }}">{{ snippet.title }}</a></h1>
+        <div class="genre">{{ snippet.genres|lower }}</div>
+        <h2 class="username artist">by <a href="{{ snippet.song.artist.get_absolute_url }}">{{ snippet.song.artist.get_display_name }}</a></h2>
+        {% if editable and not edit_mode %}
+        <a href="?edit" class="edit-link">edit</a>
+        {% endif %}
+        {% if not edit_mode %}
+
+
+        {% block player %}
+        {% if snippet.audio_ready %}
+        <div class="player">
+          <div class="player-waveform" id="player-waveform">
+            <div class="player-progress" id="player-progress">
+            </div>
+            <img  src="/waveform/500/90/white/201,201,201/{{ snippet.audio.id }}/waveform.png" width="500" height="90">
+          </div>
+          
+          <button id="player-repeat" class="player-repeat fa fa-repeat"><span class="sr-only">Repeat</span></button>
+          
+          <audio id="audioPlayer" height="30" width="87%" controls="controls" preload="auto">
+            <source type="audio/mp3" src="{{ snippet.audio_mp3.url }}" />
+            <object width="320" height="240" type="application/x-shockwave-flash" data="{{ STATIC_URL }}mediaelement/flashmediaelement.swf">
+              <param name="movie" value="{{ STATIC_URL }}mediaelement/flashmediaelement.swf" />
+              <param name="flashvars" value="controls=true&file={{ snippet.audio_mp3.url }}" />
+              <!-- Image as a last resort -->
+              Sorry, audio playback is not support on your browser.
+            </object>
+          </audio>
+
+        </div>
+        {% else %}
+        Processing...
+        {% endif %}
+        {% endblock player %}
+        
+        {% block orderButton %}
+          <div class="order-container">
+
+            <button {% if edit_mode %}disabled{% endif %} class="btn btn-primary {% if snippet.is_complete %}pre-order{% else %}order{% endif %}"
+                    {% if not user.is_authenticated %}
+                      id="loginToOrder" data-location="{% url 'login' %}?order=1&next={{ request.get_full_path }}"
+                    {% elif not user.email %}
+                      id="loginToOrder" data-location="{% url 'edit-user-profile' %}?order=1"
+                    {% else %}
+                      id="order"
+                    {% endif %}>
+
+              <i class="fa fa-shopping-cart"></i>
+              {% if not snippet.is_complete%}Pre Order{% else %}Song is out, order now!{% endif %}
+            </button>
+            {% if snippet.is_complete %}
+            {% elif editable %}
+              <div><a href="{{ snippet.get_absolute_url }}upload-full/" class="upload-full-link">(upload full song)</a></div>
+            {% endif %}
+            {% if user.is_authenticated %}
+              <form id="orderForm" style="display: none" method="post" action="/purchase/">
+                {% csrf_token %}
+                <input name="email">
+                <input name="token">
+                <input name="snippet_id" value="{{ snippet.id }}">
+              </form>
+            {% endif %}
+            {% if order_count > 0 %}<div class="order-count">{{ order_count }} {% if not snippet.is_complete%}pre {% endif %}order{% if order_count > 1 %}s{% endif %}</div>{% endif %}
+            {% if snippet.is_complete %}
+              <div class="release-date">Released on {{ snippet.song.completed_at|date:'SHORT_DATE_FORMAT' }}</div>
+            {% endif %}
+          </div>
+        {% endblock %}
+
+        {% endif %}{# if not edit_mode #}
+
+      </div>
+      {% block commentsArea %}
+      {% if edit_mode %}
+      <div class="edit">
+        <form method="POST" action="" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ edit_form|crispy }}
+          <div class="form-actions">
+            {% if snippet.state == "ready" %}
+            <input type="submit" name="publish" class="btn btn-primary" value="Publish">
+            <input type="submit" name="update" class="btn" value="Update">
+            {% else %}
+            <input type="submit" name="update" class="btn btn-primary" value="Save">
+            {% endif %}
+            {% if deleteable %}
+            <input type="submit" name="delete" class="btn" value="Delete" onclick='return confirm("Are you sure you want to delete this song snippet?")'>
+            {% endif %}
+          </div>
+        </form>
+      </div>
+      {% else %}
+    </div>
+  </div>
+
+  <div class="comments" id="comments">
+    <h1>Comments</h1>
+    <ul>
+      {% for comment in snippet.comment_set.all %}
+      <li class="comment {% if comment.user == snippet.song.artist.user %}artist-comment{% endif %} row">
+        <div class="col-xs-12">
+          {% if comment.user|has_avatar %}
+          <div class="avatar">{% avatar comment.user AVATAR_SIZE %}</div>
+          {% endif %}
+          <div class="username">{{ comment.user.username }}</div>
+          <!-- <div class="timestamp">{{ comment.created_at|naturaltime }}</div> -->
+          <div class="text">{{ comment.content }}</div>
+          <div class="timestamp">{{ comment.created_at|date:'F j Y' }} &mdash; {{ comment.created_at|date:'f a'}}</div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    
+    {% if prompt_first_artist_comment %}
+    <div class="alert alert-success">Be sure to comment and give a rough estimate as to when the song will be finished"
+"e.g. 'by the end of the month', 'in a few days'</div>
+    {% endif %}
+    
+    <div class="newcomment">
+      <h1>Leave a Comment</h1>
+      {% if user.is_authenticated %}
+      <form action="." method="post" onsubmit="spawnsong.snippet.post_comment(); return false">
+        {% csrf_token %}
+        <!-- Honey-pot: --> <input class="badger" name="badger" placeholder="Don't type anything in this field.">
+        <label>Your comment:</label>
+        <textarea id="commentText" name="comment"></textarea>
+        <button class="btn btn-primary" id="addcomment">Comment</button>
+      </form>
+      {% else %}
+      
+      <div class="cantcomment">Please login to make a comment</div> <a href="/login/?next={{ snippet.get_absolute_url }}" class="btn btn-primary">Log In</a>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+  {% endblock commentsArea %}
+</div>
+{% endblock content %}

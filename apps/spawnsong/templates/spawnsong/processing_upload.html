@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+
+{% block title %}Upload a song snippet | Spawnsong{% endblock %}
+
+{% block extrahead %}
+{% if snippet.state == "processing" %}
+<meta http-equiv="refresh" content="10">
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="processing-upload-view" id="processingUploadView">
+    
+    {% if snippet.state == "processing" %}
+    <div class="panel">
+      <div class="panel-heading">
+        <h1>Processing, please stand by....</h1>
+      </div>
+      <div class="panel-body">
+        <div class="progress progress-striped active">
+          <div class="progress-bar" style="width: 100%">
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <h1>Processing failed!</h1>
+      </div>
+      <div class="panel-body">
+        <p>
+          {{ snippet.processing_error }}
+        </p>
+      </div>
+    </div>
+    {% endif %}
+    
+  </div>
+</div>
+{% endblock content %}

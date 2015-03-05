@@ -1,0 +1,41 @@
+{% extends "spawnsong/snippet.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block orderButton %}
+{% endblock %}
+
+
+{% block player %}
+<div class="upload-full panel">
+  {% if uploaded %}
+  <p>
+    You have uploaded the full version of this song, it will be sent
+    to anyone who orders it. <a href="{{snippet.get_absolute_url }}">Back to comments...</a>
+  </p>
+  {% else %}
+  <p>
+    You can upload the completed song here. It will be sent to anyone
+    who has pre-ordered and to anyone who orders it in the future.
+  </p>
+  <form method="POST" action="" enctype="multipart/form-data" id="uploadForm">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="form-actions-with-progress">
+      <button type="submit" class="action">Upload &amp; Send</button>
+      <div class="status" id="uploadStatus">
+        <div class="text">
+          Uploading...
+        </div>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="">
+            <span class="sr-only">Not yet started</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  {% endif %}
+</div>
+
+{% endblock %}

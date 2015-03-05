@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="snippet-view">
+    <div class="player">
+      <video controls>
+        <source src="http://distilleryvesper1-1.ak.instagram.com/28d33b4c5cc711e3a4d80a6a9f72504c_101.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="details">
+      <div class="header">
+        <h1 class="snippet-title">My New Tune</h1>
+        <h2 class="username artist">by <a href="#">soundman</a></h2>
+        <span class="timestamp">1 week ago</span>
+        <button class="pre-order" id="preorder">Pre Order</button>
+        
+      </div>
+      <div class="comments">
+        <ul>
+          <li class="comment">
+            <span class="avatar"></span>
+            <div class="timestamp">1 hour ago</div>
+            <div class="username"><a href="#">someguy</a></div>
+            <div class="text">I approve of this sound</div>
+          </li>
+          <li class="comment">
+            <span class="avatar"></span>
+            <div class="timestamp">1 hour ago</div>
+            <div class="username"><a href="#">someonelse</a></div>
+            <div class="text">I liked it</div>
+          </li>
+          <li class="comment">
+            <span class="avatar"></span>
+            <div class="timestamp">1 hour ago</div>
+            <div class="username"><a href="#">anotherguy</a></div>
+            <div class="text">I too enjoyed this</div>
+          </li>
+          <li class="comment">
+            <span class="avatar"></span>
+            <div class="timestamp">1 hour ago</div>
+            <div class="username"><a href="#">someguy</a></div>
+            <div class="text">I approve of this sound</div>
+          </li>
+          <li class="comment">
+            <span class="avatar"></span>
+            <div class="timestamp">1 hour ago</div>
+            <div class="username"><a href="#">someonelse</a></div>
+            <div class="text">I liked it</div>
+          </li>
+          <li class="comment">
+            <span class="avatar"></span>
+            <div class="timestamp">1 hour ago</div>
+            <div class="username"><a href="#">anotherguy</a></div>
+            <div class="text">I too enjoyed this</div>
+          </li>
+        </ul>
+        <div class="newcomment">
+          <span class="avatar"></span>
+          <input id="commentText"> <button class="btn" id="addcomment">Comment</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

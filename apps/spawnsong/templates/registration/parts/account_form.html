@@ -1,0 +1,15 @@
+{% load crispy_forms_tags %}
+    <div class="form-inner panel">
+      <div class="panel-heading">
+        <h1>{{ title }}</h1>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" method="post" action="">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">{{ button }}</button>
+          </div>
+        </form>
+      </div>
+    </div>

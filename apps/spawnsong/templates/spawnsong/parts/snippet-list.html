@@ -1,0 +1,41 @@
+{% load thumbnail %}
+{% load endless %}
+{% paginate 21 snippets %}
+
+
+<div class="snippet-list" id="snippetList">
+  {% for snippet in snippets %}
+  <div class="snippet">
+    <div class="snippet-inner">
+      {% if snippet.message %}
+        <div class="message">{{ snippet.message }}</div>
+      {% endif %}
+      <div class="cover">
+        <a href="{{ snippet.get_absolute_url }}">
+          {% thumbnail snippet.image "300x300" crop="center" as im %}
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+          {% endthumbnail %}
+        </a>
+        <div class="buttons">
+          {% if snippet.song.artist.user == user %}
+            <a href="{{ snippet.get_absolute_url }}?edit" class="btn view-snippet" role="button">{% if snippet.state == "ready" %}Publish{% else %}Edit{% endif %}</a>
+          {% endif %}
+          <a href="{{ snippet.get_absolute_url }}" class="btn view-snippet play" role="button">Listen Now</a>
+        </div>
+      </div>
+      <a href="{{ snippet.get_absolute_url }}">
+        <h3>{{ snippet.title }}{% if snippet.state == "ready" %}<small>(unpublished)</small>{% endif %}</h3>
+      </a>
+      <p class="counts">
+        {{ snippet.order_count }} pre-orders, {{ snippet.comment_count }} comments
+      </p>
+      <p class="genre">
+        {{ snippet.genres|lower}}
+      </p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+
+{% show_more %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}Spawnsong{% endblock %}
+
+{% block content %}
+<!-- <div class="container-fluid"> -->
+<!--   <div class="jumbotron jumbotron-default"> -->
+<!--     <div class="container"> -->
+<!--       <h1>Spawnsong let's you listen to songs in their infancy, before they're even finished.</h1> -->
+<!--       <p>Dig the clip, $1.23 to tip, and Oh Baby! You've got a song coming.</p> -->
+<!--       <p><a href="/upload/" class="btn btn-primary btn-lg" role="button">Upload a Song Clip</a></p> -->
+<!--     </div> -->
+
+<!--   </div> -->
+<!--   <div class="downarrow"></div> -->
+<!-- </div> -->
+
+
+<div class="container-fluid">
+  <div class="jumbotron jumbotron-competition ">
+    <div class="container">
+      <h1>Spawnsong lets you listen to songs in their<br>infancy, before they're even finished.</h1>
+      <div class="lines">
+      </div>
+    </div>
+
+  </div>
+  <div class="downarrow"></div>
+</div>
+
+<div class="container">
+  {% if request.user.is_authenticated and not request.user.email %}
+    <div class="alert alert-warning alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      Please <a href="{% url 'edit-user-profile' %}">add an e-mail address</a> to your account.
+    </div>
+  {% endif %}
+  {% include "spawnsong/parts/searchbox.html" %}
+
+  <div class="sortby">
+    {% if sort == "new" %}
+    <a href="?sort=popular">Sort by popular</a>
+    {% else %}
+    <a href="?sort=new">Sort by new</a>
+    {% endif %}
+  </div>
+  
+  {% include "spawnsong/parts/snippet-list.html" %}
+</div>
+{% endblock content %}

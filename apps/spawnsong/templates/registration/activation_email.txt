@@ -1,0 +1,3 @@
+Please follow this link to finish registration
+{# django-registration passes {{ site }} to this template, but it's not used on current installation #}
+http://{{ site.domain }}{% url 'registration_activate' activation_key %}

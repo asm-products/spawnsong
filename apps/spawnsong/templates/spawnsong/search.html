@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}Search | Spawnsong{% endblock %}
+
+{% block content %}
+<div class="container">
+  
+  {% include "spawnsong/parts/searchbox.html" %}
+
+  <h1>Search Results</h1>
+  
+  
+  {% include "spawnsong/parts/snippet-list.html" %}
+</div>
+{% endblock content %}
