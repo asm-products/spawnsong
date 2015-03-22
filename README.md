@@ -23,14 +23,14 @@ Follow these instructions to run a local copy of the site or to prepare to deplo
  - Install Python 2.7
  - Install `pip` and `virtualenv` python packages (often you can install both with `easy_install virtualenv`)
  - Setup a Virtualenv for the project (this is an isolated copy of Python and the required libraries)
-   - Make the vitualenv `virtualenv ~/envs/reetraining`
-   - Activate it `source ~/envs/reetraining/bin/activate.sh` 
+   - Make the vitualenv `virtualenv ~/envs/spawnsong`
+   - Activate it `source ~/envs/spawnsong/bin/activate.sh` 
    - Install the needed python libraries (must be run from project root): `pip install -r requirements.txt`
  - Install LESS and Yuglify (for the static file procesing pipeline).
    - Install Node.JS
    - Run `npm install -g less yuglify`
 
-At this point you should have a working Virtualenv, whenever you want to work on the project you must activate it first with `source ~/envs/reetraining/bin/activate.sh`. You will know this has worked because it will put "(reetraining)" before your shell prompt.
+At this point you should have a working Virtualenv, whenever you want to work on the project you must activate it first with `source ~/envs/spawnsong/bin/activate.sh`. You will know this has worked because it will put "(spawnsong)" before your shell prompt.
 
 Setting up local settings
 -------------------------
